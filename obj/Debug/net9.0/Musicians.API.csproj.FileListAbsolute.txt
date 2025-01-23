@@ -39,3 +39,4 @@ C:\Users\Administrador\Downloads\API C#\Musicians\Musicians.API\obj\Debug\net9.0
 C:\Users\Administrador\Downloads\API C#\Musicians\Musicians.API\obj\Debug\net9.0\Musicians.API.pdb
 C:\Users\Administrador\Downloads\API C#\Musicians\Musicians.API\obj\Debug\net9.0\Musicians.API.genruntimeconfig.cache
 C:\Users\Administrador\Downloads\API C#\Musicians\Musicians.API\obj\Debug\net9.0\ref\Musicians.API.dll
+C:\Users\Administrador\Downloads\API C#\Musicians\Musicians.API\obj\Debug\net9.0\Musicians.API.sourcelink.json
