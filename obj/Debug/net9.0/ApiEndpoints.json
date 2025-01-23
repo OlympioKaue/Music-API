@@ -1,0 +1,48 @@
+[
+  {
+    "ContainingType": "Musicians.API.Controllers.MusiciansController",
+    "Method": "Register",
+    "RelativePath": "api/Musicians",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "register",
+        "Type": "Musicians.Communication.Request.RequestMusiciansJson",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Musicians.Communication.Response.ResponseRegisterJson",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 201
+      }
+    ]
+  },
+  {
+    "ContainingType": "Musicians.API.Controllers.MusiciansController",
+    "Method": "GetAll",
+    "RelativePath": "api/Musicians",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "Musicians.Communication.Repository.MusicianRepository",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  }
+]
