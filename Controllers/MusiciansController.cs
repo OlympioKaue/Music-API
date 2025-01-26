@@ -24,13 +24,17 @@ namespace Musicians.API.Controllers
         //Criação 
         [HttpPost]
         [ProducesResponseType(typeof(ResponseRegisterJson), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+     
         public IActionResult Register([FromBody] RequestMusiciansJson register)
         {
-            var UseCase = new RegisterUseCaseJson(music);
-            var Response = UseCase.Execute(register);
+            
+            var useCase = new RegisterUseCaseJson(music);
+            var response = useCase.Execute(register);
+            
+            var usecaseRegister = new RegisterUseCaseJson(music).ExecuteRegister(register);
 
-            return Created(string.Empty, Response);
+   
+            return Created(string.Empty, usecaseRegister);
 
 
         }
@@ -39,41 +43,41 @@ namespace Musicians.API.Controllers
         // Visualização
         [HttpGet]
         [ProducesResponseType(typeof(MusicianRepository), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ResponseNotFoundJson), StatusCodes.Status404NotFound)]
         public IActionResult GetAll()
         {
 
-            var UseCase = new GetAllUseCaseJson(music);
-            var Response = UseCase.Execute();
+            var useCase = new GetAllUseCaseJson(music);
+            var response = useCase.Execute();
 
-            if (Response == null || Response.Count == 0)
+            if (response == null || response.Count == 0)
             {
-                return NotFound(new ResponseErrorJson { Errors = "Failed" });
+                return NotFound(new ResponseNotFoundJson { ListNotFound = "List Not Found, Try Again !" });
             }
 
 
-            return Ok(Response);
+            return Ok(response);
 
         }
 
         // Visualização por ID
         [HttpGet]
         [Route("{id}")]
-        [ProducesResponseType(typeof(MusicianRepository), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ResponseMusicJson), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResponseNotFoundJson), StatusCodes.Status400BadRequest)]
         public IActionResult GetById(int id)
         {
 
 
-            var UseCase = new GetByIDUseCaseJson(music);
-            var Response = UseCase.Execute(id);
+            var useCase = new GetByIDUseCaseJson(music);
+            var response = useCase.Execute(id);
 
-            if (Response == null)
+            if (response == null)
             {
-                return NoContent();
+                return NotFound(new ResponseNotFoundJson { ListNotFound = "List Not Found, Try Again !" });
             }
 
-            return Ok(Response);
+            return Ok(response);
         }
 
 
@@ -82,18 +86,18 @@ namespace Musicians.API.Controllers
         [HttpPut]
         [Route("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
-        public IActionResult Update(int id, RequestMusiciansJson update)
+        [ProducesResponseType(typeof(ResponseNotFoundJson), StatusCodes.Status400BadRequest)]
+        public IActionResult Update(int id, RequestUpdateMusiciansJson update)
         {
-            var exist = music.GetById(id);
-            if (exist == null)
+            var isThere = music.GetById(id);
+            if (isThere == null)
             {
-                return NotFound(new ResponseErrorJson { Errors = "Failed" });
+                return NotFound(new ResponseNotFoundJson { ListNotFound = "List Not Found, Try Again !" });
             }
 
 
-            var UseCase = new UpdateUseCaseJson(music);
-            var Response = UseCase.Execute(id, update);
+            var useCase = new UpdateUseCaseJson(music);
+            var response = useCase.Execute(id, update);
 
 
             return NoContent();
@@ -104,19 +108,20 @@ namespace Musicians.API.Controllers
         // Delete por ID
         [HttpDelete]
         [Route("{id}")]
-        [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ResponseNotFoundJson), StatusCodes.Status400BadRequest)]
         public IActionResult Delete(int id)
         {
-            var UseCase = new DeleteUseCaseJson(music);
-            var Response = UseCase.Execute(id);
+            var useCase = new DeleteUseCaseJson(music);
+            var response = useCase.Execute(id);
 
-            if (Response)
+            if (response)
             {
                 return NoContent();
             }
             else
             {
-                return NotFound(new ResponseErrorJson { Errors = "Failed" });
+                return NotFound(new ResponseNotFoundJson { ListNotFound = "List Not Found, Try Again !"});
             }
         }
     }
